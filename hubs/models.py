@@ -3,9 +3,9 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 class Hub(models.Model):
-    hub_id = models.CharField(max_length=10, primary_key=True)
-    x_co_ord = models.FloatField()
-    y_co_ord = models.FloatField()
+    hub_id = models.CharField(max_length=25, primary_key=True)
+    x_co_ord = models.DecimalField(max_digits=9, decimal_places=6)
+    y_co_ord = models.DecimalField(max_digits=9, decimal_places=6)
     area = models.CharField(max_length=50)
     area_code = models.IntegerField() 
 
