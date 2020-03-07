@@ -3,7 +3,7 @@ from django.urls import path, include
 from .views import MerchantCreateView, MerchantListView, HubListView
 
 urlpatterns = [
-    path('create-merch/', MerchantCreateView.as_view()),
-    path('list-merch/', MerchantListView.as_view()),
     path('list-hub/', HubListView.as_view()),
+    path('create-merch/', MerchantCreateView.as_view()),
+    path('list-merch/<str:hub_id>', MerchantListView.as_view()),
 ]

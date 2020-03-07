@@ -3,11 +3,11 @@ from .models import Merchant, Product, Hub
 
 class MerchantSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, style = {'input_type': 'password'}) #FOR USER CREATION PURPOSE
-    products = serializers.PrimaryKeyRelatedField(many=True, queryset=Product.objects.all())
+    # products = serializers.PrimaryKeyRelatedField(many=True, queryset=Product.objects.all())
 
     class Meta:
         model = Merchant
-        fields = ['first_name', 'last_name', 'username', 'email', 'password', 'phone', 'hub', 'products']
+        fields = ['first_name', 'last_name', 'username', 'email', 'password', 'phone', 'hub']
     
     def create(self, validated_data):
         merchant = super(MerchantSerializer, self).create(validated_data)
