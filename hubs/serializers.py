@@ -22,6 +22,8 @@ class HubSerializer(serializers.ModelSerializer):
         fields = ['hub_id', 'x_co_ord', 'y_co_ord', 'area', 'area_code']
 
 class ProductSerializer(serializers.ModelSerializer):
+    merchant = serializers.ReadOnlyField(source='merchant.username')
+
     class Meta:
         model = Product
         fields = ['merchant', 'name', 'family', 'avail_quantity']
