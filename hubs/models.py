@@ -24,3 +24,6 @@ class Product(models.Model):
     name = models.CharField(max_length=50)
     family = models.CharField(max_length=50)
     avail_quantity = models.FloatField()
+
+    def __str__(self):
+        return self.name + ' ' + self.family + ' - ' + self.avail_quantity + ' from ' + self.merchant.__str__()
