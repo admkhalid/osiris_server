@@ -23,7 +23,7 @@ class Product(models.Model):
     merchant = models.ForeignKey(Merchant, on_delete = models.CASCADE, related_name='products')
     name = models.CharField(max_length=50)
     family = models.CharField(max_length=50)
-    avail_quantity = models.FloatField()
+    avail_quantity = models.DecimalField(max_digits=5, decimal_places=3)
 
     def __str__(self):
         return self.name + ' ' + self.family + ' - ' + self.avail_quantity + ' from ' + self.merchant.__str__()
