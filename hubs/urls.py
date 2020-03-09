@@ -1,10 +1,11 @@
 from django.contrib import admin
 from django.urls import path, include
-from .views import MerchantCreateView, MerchantListView, HubListView, ProductListView
+from .views import MerchantCreateView, MerchantListView, HubListView, HubDetailView, ProductListView
 
 urlpatterns = [
-    path('list-hub/', HubListView.as_view()),
+    path('', HubListView.as_view()),
     path('create-merch/', MerchantCreateView.as_view()),
-    path('list-merch/<str:hub_id>/', MerchantListView.as_view()),
-    path('list-products/<str:hub_id>/', ProductListView.as_view()),
+    path('<str:pk>/', HubDetailView.as_view()),
+    path('<str:hub_id>/merch/', MerchantListView.as_view()),
+    path('<str:hub_id>/products/', ProductListView.as_view()),
 ]
