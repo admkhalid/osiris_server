@@ -55,10 +55,20 @@ class ProductListView(generics.ListAPIView):
     def perform_create(self, serializer):
         serializer.save(merchant=self.request.user)
 
-class ProductDetailView(generics.RetrieveAPIView):
+class ProductDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [cust_permissions.IsOwnerOrReadOnly]
 
     def perform_create(self, serializer):
-        serializer.save(merchant=self.request.user)
+        m = Merchant.objects.get(username=self.request.user.username)
+        serializer.save(merchant=m)
+
+class ProductCreateView(generics.CreateAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def perform_create(self, serializer):
+        m = Merchant.objects.get(username=self.request.user.username)
+        serializer.save(merchant=m)
