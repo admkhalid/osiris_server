@@ -2,6 +2,8 @@ from django.shortcuts import get_object_or_404, get_list_or_404
 from rest_framework import generics
 from .models import Hub, Merchant, Product
 from .serializers import MerchantSerializer, HubSerializer, ProductSerializer
+from rest_framework import permissions
+from . import permissions as cust_permissions
 
 # Create your views here.
 
@@ -24,6 +26,11 @@ class HubListView(generics.ListAPIView):
     queryset = Hub.objects.all()
     serializer_class = HubSerializer
 
+class HubDetailView(generics.RetrieveAPIView):
+    queryset = Hub.objects.all()
+    serializer_class = HubSerializer
+    permission_classes = [cust_permissions.IsAdminUserOrReadOnly]
+
 ##List products specific to a merchant
 class MerchantProductListView(generics.ListAPIView):
     queryset = Product.objects.all()
@@ -38,8 +45,20 @@ class MerchantProductListView(generics.ListAPIView):
 class ProductListView(generics.ListAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def get_queryset(self):
         merchants = get_list_or_404(Merchant, hub_id = self.kwargs.get('hub_id'))
         return Product.objects.filter(merchant__in = merchants)
         ## add __in to the attribute name if your filter parameter is a list of some stuff
+
+    def perform_create(self, serializer):
+        serializer.save(merchant=self.request.user)
+
+class ProductDetailView(generics.RetrieveAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    def perform_create(self, serializer):
+        serializer.save(merchant=self.request.user)
