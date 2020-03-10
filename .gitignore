@@ -1,1 +1,3 @@
-*.pyc
+osiris_server/__pycache__/*.pyc
+hubs/__pycache__/*pyc
+hubs/migrations/__pycache__/*pyc
