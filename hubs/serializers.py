@@ -27,4 +27,4 @@ class ProductSerializer(serializers.HyperlinkedModelSerializer):
     # url = serializers.HyperlinkedIdentityField(view_name='product-detail')
     class Meta:
         model = Product
-        fields = ['id', 'merchant', 'name', 'family', 'avail_quantity']
+        fields = ['id', 'merchant', 'name', 'family', 'image', 'avail_quantity', 'rate']

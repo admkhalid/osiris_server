@@ -23,7 +23,9 @@ class Product(models.Model):
     merchant = models.ForeignKey(Merchant, on_delete = models.CASCADE, related_name='products')
     name = models.CharField(max_length=50)
     family = models.CharField(max_length=50)
+    image = models.ImageField(default='default.jpg', upload_to='prod_pics')
     avail_quantity = models.DecimalField(max_digits=5, decimal_places=3)
+    rate = models.DecimalField(max_digits=7, decimal_places=2, default=0)
 
     def __str__(self):
         return self.name + ' ' + self.family + ' - ' + self.avail_quantity + ' from ' + self.merchant.__str__()
