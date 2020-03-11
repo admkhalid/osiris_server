@@ -1,7 +1,8 @@
 from django.shortcuts import get_object_or_404, get_list_or_404
 from rest_framework import generics
 from .models import Hub, Merchant, Product
-from .serializers import MerchantSerializer, HubSerializer, ProductSerializer
+from .serializers import (MerchantSerializer, HubSerializer, ProductSerializer,
+                        HubListSerializer, MerchantListSerializer, ProductListSerializer)
 from rest_framework import permissions
 from . import permissions as cust_permissions
 
@@ -13,18 +14,23 @@ class MerchantCreateView(generics.CreateAPIView):
 
 class MerchantListView(generics.ListAPIView):
     queryset = Merchant.objects.all()
-    serializer_class = MerchantSerializer
+    serializer_class = MerchantListSerializer
 
-    class Meta:
-        fields = ['first-name', 'last-name', 'phone']
+    # class Meta:
+    #     fields = ['first-name', 'last-name', 'phone']
 
     def get_queryset(self):
         hub = get_object_or_404(Hub, hub_id = self.kwargs.get('hub_id'))
         return Merchant.objects.filter(hub_id = hub)
 
+class MerchantDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Merchant.objects.all()
+    serializer_class = MerchantSerializer
+    permission_classes = [cust_permissions.IsOwnerOrReadOnly]
+
 class HubListView(generics.ListAPIView):
     queryset = Hub.objects.all()
-    serializer_class = HubSerializer
+    serializer_class = HubListSerializer
 
 class HubDetailView(generics.RetrieveAPIView):
     queryset = Hub.objects.all()
@@ -34,17 +40,17 @@ class HubDetailView(generics.RetrieveAPIView):
 ##List products specific to a merchant
 class MerchantProductListView(generics.ListAPIView):
     queryset = Product.objects.all()
-    serializer_class = ProductSerializer
+    serializer_class = ProductListSerializer
 
     def get_queryset(self):
-        merchant = get_object_or_404(Merchant, username = self.kwargs.get('username'))
+        merchant = get_object_or_404(Merchant, id=self.kwargs.get('pk'))
         return Product.objects.filter(merchant = merchant)
 
 #List all products available in a HUB
 
 class ProductListView(generics.ListAPIView):
     queryset = Product.objects.all()
-    serializer_class = ProductSerializer
+    serializer_class = ProductListSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def get_queryset(self):
