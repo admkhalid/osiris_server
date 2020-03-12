@@ -5,12 +5,19 @@ from .serializers import (MerchantSerializer, HubSerializer, ProductSerializer,
                         HubListSerializer, MerchantListSerializer, ProductListSerializer)
 from rest_framework import permissions
 from . import permissions as cust_permissions
-
+from rest_framework.authtoken.models import Token
+from django.contrib.auth.models import User
 # Create your views here.
 
 class MerchantCreateView(generics.CreateAPIView):
     queryset = Merchant.objects.all()
-    serializer_class = MerchantSerializer 
+    serializer_class = MerchantSerializer
+
+    def post(self, request, *args, **kwargs):
+        Res = super().post(request, *args, **kwargs)
+        token = Token.objects.get(user=User.objects.get(id=Res.data['id'])).key
+        Res.data['token'] = token
+        return Res
 
 class MerchantListView(generics.ListAPIView):
     queryset = Merchant.objects.all()
