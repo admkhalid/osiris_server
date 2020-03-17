@@ -7,6 +7,10 @@ from rest_framework import permissions
 from . import permissions as cust_permissions
 from rest_framework.authtoken.models import Token
 from django.contrib.auth.models import User
+from rest_framework.decorators import api_view
+from rest_framework.authtoken.models import Token
+from rest_framework.response import Response
+
 # Create your views here.
 
 class MerchantCreateView(generics.CreateAPIView):
@@ -85,3 +89,13 @@ class ProductCreateView(generics.CreateAPIView):
     def perform_create(self, serializer):
         m = Merchant.objects.get(username=self.request.user.username)
         serializer.save(merchant=m)
+
+@api_view(['POST'])
+def merchantLogin(request, *args, **kwargs):
+    m = Merchant.objects.get(username=request.data['username'])
+    Token.objects.create(user=m)
+    res = {}
+    # res['token'] = Token.objects.get(user=User.objects.get(username=request.data['username'])
+    u = User.objects.get(username=request.data['username'])
+    res['token'] = Token.objects.get(user=u).key
+    return Response(res)

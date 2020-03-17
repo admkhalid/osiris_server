@@ -2,7 +2,8 @@ from django.contrib import admin
 from django.urls import path, include
 from .views import (
     MerchantCreateView, MerchantListView, HubListView, HubDetailView, ProductListView,
-    ProductDetailView, ProductCreateView, MerchantDetailView, MerchantProductListView)
+    ProductDetailView, ProductCreateView, MerchantDetailView, MerchantProductListView, 
+    merchantLogin)
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
@@ -16,4 +17,5 @@ urlpatterns = [
     path('products/<int:pk>/', ProductDetailView.as_view(), name='product-detail'),
     path('products/create/', ProductCreateView.as_view()),
     path('login/testlogin/', auth_views.LoginView.as_view(template_name = 'hubs/login.html'), name = 'testlogin'),
+    path('merch/login/', merchantLogin),
 ]
