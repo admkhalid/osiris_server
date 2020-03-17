@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'storages',
     'corsheaders',
+    'rest_auth',
+    'rest_auth.registration',
 ]
 
 REST_FRAMEWORK = {
