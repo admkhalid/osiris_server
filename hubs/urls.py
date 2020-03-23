@@ -18,4 +18,5 @@ urlpatterns = [
     path('products/create/', ProductCreateView.as_view()),
     path('login/testlogin/', auth_views.LoginView.as_view(template_name = 'hubs/login.html'), name = 'testlogin'),
     path('merch/login/', merchantLogin),
+    path('rest-auth/', include('rest_auth.urls')),
 ]
