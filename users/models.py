@@ -1,15 +1,17 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import User
 from market.models import Hub
 
-class User(AbstractUser):
-    is_merch = models.BooleanField()
-    profile_pic = models.ImageField(default='default_av.png', upload_to='merch_profile_pics')
-    phone = models.CharField(max_length=20, unique=True)
-
-    def __str__(self):
-        return self.first_name + ' ' + self.last_name + ' - ' + self.phone
-
-class MerchProfile(User):
+class MerchProfile(models.Model):
     user = models.OneToOneField(User, on_delete = models.CASCADE)
+    is_merch = models.BooleanField(default=True)
+    profile_pic = models.ImageField(default='default_av.png', upload_to='merch_profile_pics')
     hub = models.ForeignKey(Hub, on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = 'merch_profile'
+
+class CustProfile(models.Model):
+    user = models.OneToOneField(User, on_delete = models.CASCADE)
+    is_merch = models.BooleanField(default=False)
+    profile_pic = models.ImageField(default='default_av.png', upload_to='merch_profile_pics')

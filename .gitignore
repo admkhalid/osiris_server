@@ -3,3 +3,5 @@ hubs/__pycache__/*.pyc
 hubs/migrations/__pycache__/*.pyc
 hubs/__pycache__/urls.cpython-37.pyc
 *.pyc
+users/migrations/0002_auto_20200323_1258.py
+users/migrations/0001_initial.py

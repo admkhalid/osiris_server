@@ -17,10 +17,12 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-
+from users.views import UserCreateVeiw, MerchProfileCreateView
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('hubs/', include('hubs.urls')),
+    # path('hubs/', include('hubs.urls')),
+    path('user/register/', UserCreateVeiw.as_view()),
+    path('user/register-profile/', MerchProfileCreateView.as_view())
 ]
 
 if settings.DEBUG:
