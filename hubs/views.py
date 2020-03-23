@@ -10,8 +10,8 @@ from django.contrib.auth.models import User
 from rest_framework.decorators import api_view
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
+from django.urls import reverse
 
-# Create your views here.
 
 class MerchantCreateView(generics.CreateAPIView):
     queryset = Merchant.objects.all()
@@ -98,4 +98,5 @@ def merchantLogin(request, *args, **kwargs):
     # res['token'] = Token.objects.get(user=User.objects.get(username=request.data['username'])
     u = User.objects.get(username=request.data['username'])
     res['token'] = Token.objects.get(user=u).key
+    res['url'] = reverse('merch-detail', kwargs={'pk': m.id})
     return Response(res)
