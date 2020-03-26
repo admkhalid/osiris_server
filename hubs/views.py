@@ -11,6 +11,8 @@ from rest_framework.decorators import api_view
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 from django.urls import reverse
+from customers.serializers import CartItemSerializer, OrderSerializer
+from customers.models import CartItem
 
 
 class MerchantCreateView(generics.CreateAPIView):
@@ -100,3 +102,17 @@ def merchantLogin(request, *args, **kwargs):
     res['token'] = Token.objects.get(user=u).key
     res['url'] = reverse('merch-detail', kwargs={'pk': m.id})
     return Response(res)
+
+class OrderCheck(generics.ListAPIView):
+    queryset = CartItem.objects.all()
+    serializer_class = OrderSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        prod = Product.objects.filter(merchant=self.request.user)
+        return CartItem.objects.filter(item__in = prod, ordered = True, processed = False)
+
+class SpecificOrderDetailSerializer(generics.RetrieveUpdateDestroyAPIView):
+    queryset = CartItem.objects.all()
+    serializer_class = OrderSerializer
+    permission_classes = [permissions.IsAuthenticated]

@@ -3,7 +3,7 @@ from django.urls import path, include
 from .views import (
     MerchantCreateView, MerchantListView, HubListView, HubDetailView, ProductListView,
     ProductDetailView, ProductCreateView, MerchantDetailView, MerchantProductListView, 
-    merchantLogin)
+    merchantLogin, OrderCheck, SpecificOrderDetailSerializer)
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
@@ -19,4 +19,6 @@ urlpatterns = [
     path('login/testlogin/', auth_views.LoginView.as_view(template_name = 'hubs/login.html'), name = 'testlogin'),
     path('merch/login/', merchantLogin),
     path('rest-auth/', include('rest_auth.urls')),
+    path('order/list/', OrderCheck.as_view()),
+    path('order/detail/<int:pk>', SpecificOrderDetailSerializer.as_view(), name='order-detail')
 ]
