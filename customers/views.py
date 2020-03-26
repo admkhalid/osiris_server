@@ -13,6 +13,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework import permissions
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404, get_list_or_404
+from django.urls import reverse
 
 class CustomerCreateView(generics.CreateAPIView):
     queryset = Customer.objects.all()
@@ -28,6 +29,17 @@ class CustomerDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
     permission_classes = [IsOwnerOrReadOnly]
+
+@api_view(['POST'])
+def custLogin(request, *args, **kwargs):
+    m = Customer.objects.get(username=request.data['username'])
+    Token.objects.create(user=m)
+    res = {}
+    # res['token'] = Token.objects.get(user=User.objects.get(username=request.data['username'])
+    u = User.objects.get(username=request.data['username'])
+    res['token'] = Token.objects.get(user=u).key
+    res['url'] = reverse('merch-detail', kwargs={'pk': m.id})
+    return Response(res)
 
 # @csrf_exempt
 # @api_view(['GET', 'POST', 'PUT'])

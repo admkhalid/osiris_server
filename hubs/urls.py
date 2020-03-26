@@ -20,5 +20,5 @@ urlpatterns = [
     path('merch/login/', merchantLogin),
     path('rest-auth/', include('rest_auth.urls')),
     path('order/list/', OrderCheck.as_view()),
-    path('order/detail/<int:pk>', SpecificOrderDetailSerializer.as_view(), name='order-detail')
+    path('order/detail/<int:pk>/', SpecificOrderDetailSerializer.as_view(), name='order-detail')
 ]
