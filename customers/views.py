@@ -75,7 +75,7 @@ class CartItemListView(generics.ListAPIView):
     def get_queryset(self):
         # customer = get_object_or_404(CartItem, customer = self.request.user.id)
         cust = Customer.objects.get(id=self.request.user.id)
-        return CartItem.objects.filter(customer = cust)
+        return CartItem.objects.filter(customer = cust, ordered = False)
 
 class CartItemDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = CartItem.objects.all()
@@ -94,7 +94,7 @@ class OrderDetailSerializer(generics.ListAPIView):
 
     def get_queryset(self):
         cust = Customer.objects.get(id=self.request.user.id)
-        return CartItem.objects.filter(customer = cust)
+        return CartItem.objects.filter(customer = cust, ordered = True)
 
 @api_view(['GET'])
 def orderItems(request, *args, **kwargs):
