@@ -15,12 +15,13 @@ class CustomerSerializer(serializers.HyperlinkedModelSerializer):
         customer.save()
         return customer
 
-class CartItemSerializer(serializers.ModelSerializer):
+class CartItemSerializer(serializers.HyperlinkedModelSerializer):
     customer = serializers.ReadOnlyField(source='customer.username')
+    url = serializers.HyperlinkedIdentityField(view_name='cart-item-detail')
 
     class Meta:
         model = CartItem
-        fields = ['customer', 'item', 'quantity']
+        fields = ['id', 'url', 'customer', 'item', 'quantity']
 
 class OrderSerializer(serializers.HyperlinkedModelSerializer):
     url = url = serializers.HyperlinkedIdentityField(view_name='order-detail')

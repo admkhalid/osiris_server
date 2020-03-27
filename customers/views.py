@@ -77,6 +77,16 @@ class CartItemListView(generics.ListAPIView):
         cust = Customer.objects.get(id=self.request.user.id)
         return CartItem.objects.filter(customer = cust)
 
+class CartItemDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = CartItem.objects.all()
+    serializer_class = CartItemSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        # customer = get_object_or_404(CartItem, customer = self.request.user.id)
+        cust = Customer.objects.get(id=self.request.user.id)
+        return CartItem.objects.filter(customer = cust)
+
 class OrderDetailSerializer(generics.ListAPIView):
     queryset = CartItem.objects.all()
     serializer_class = OrderSerializer
