@@ -1,1 +1,1 @@
-Web: gunicorn osiris_server.wsgi
+web: gunicorn osiris_server.wsgi
