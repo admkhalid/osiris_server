@@ -32,13 +32,13 @@ class CustomerDetailView(generics.RetrieveUpdateDestroyAPIView):
 
 @api_view(['POST'])
 def custLogin(request, *args, **kwargs):
-    m = Customer.objects.get(username=request.data['username'])
-    Token.objects.create(user=m)
+    c = Customer.objects.get(username=request.data['username'])
+    Token.objects.create(user=c)
     res = {}
     # res['token'] = Token.objects.get(user=User.objects.get(username=request.data['username'])
     u = User.objects.get(username=request.data['username'])
     res['token'] = Token.objects.get(user=u).key
-    res['url'] = reverse('merch-detail', kwargs={'pk': m.id})
+    res['url'] = reverse('cust-detail', kwargs={'pk': c.id})
     return Response(res)
 
 # @csrf_exempt
