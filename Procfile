@@ -1,0 +1,1 @@
+Web: gunicorn osiris_server.wsgi
