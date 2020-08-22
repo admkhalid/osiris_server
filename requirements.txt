@@ -19,7 +19,7 @@ docutils==0.15.2
 idna==2.9
 jmespath==0.9.5
 oauthlib==3.1.0
-Pillow==7.0.0
+Pillow==7.1.0
 pkg-resources==0.0.0
 pymongo==3.10.1
 python-dateutil==2.8.1
